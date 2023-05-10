@@ -9,7 +9,7 @@ import java.util.*;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<UUID, Customer> customers = new HashMap<>();
+    private final Map<UUID, Customer> customerMap = new HashMap<>();
 
     public CustomerServiceImpl() {
         Customer customer1 = Customer.builder()
@@ -34,18 +34,18 @@ public class CustomerServiceImpl implements CustomerService {
                 .dateUpdated(LocalDateTime.now())
                 .build();
 
-        customers.put(customer1.getId(), customer1);
-        customers.put(customer2.getId(), customer2);
-        customers.put(customer3.getId(), customer3);
+        customerMap.put(customer1.getId(), customer1);
+        customerMap.put(customer2.getId(), customer2);
+        customerMap.put(customer3.getId(), customer3);
     }
 
     @Override
     public Customer getCustomerById(UUID id) {
-        return customers.get(id);
+        return customerMap.get(id);
     }
 
     @Override
     public List<Customer> listCustomers() {
-        return new ArrayList<>(customers.values());
+        return new ArrayList<>(customerMap.values());
     }
 }
