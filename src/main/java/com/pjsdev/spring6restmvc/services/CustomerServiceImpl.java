@@ -14,7 +14,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerServiceImpl() {
         Customer customer1 = Customer.builder()
                 .id(UUID.randomUUID())
-                .name("William Shakespeare the 2nd")
+                .name("William Shakespeare")
                 .version(1)
                 .dateCreated(LocalDateTime.now())
                 .dateUpdated(LocalDateTime.now())
