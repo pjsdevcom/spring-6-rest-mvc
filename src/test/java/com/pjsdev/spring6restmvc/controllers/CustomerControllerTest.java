@@ -41,6 +41,13 @@ class CustomerControllerTest {
     }
 
     @Test
-    void listCustomers() {
+    void listCustomers() throws Exception {
+
+        given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
+
+        mockMvc.perform(get("/api/v1/customers").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.length()", is(3)));
     }
 }
