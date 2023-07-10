@@ -122,7 +122,7 @@ class BeerControllerTest {
     }
 
     @Test
-    void patchById() throws Exception {
+    void patchBeerById() throws Exception {
 
         Beer beer = beerServiceImpl.listBeers().get(0);
 
