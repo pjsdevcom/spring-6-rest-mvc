@@ -58,7 +58,7 @@ class CustomerControllerTest {
 
         given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mockMvc.perform(get(CustomerController.CUSTOMER_PATH + "/" + testCustomer.getId()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, testCustomer.getId()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
@@ -99,7 +99,7 @@ class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMvc.perform(put(CustomerController.CUSTOMER_PATH + "/" + customer.getId())
+        mockMvc.perform(put(CustomerController.CUSTOMER_PATH_ID, customer.getId())
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(customer)))
@@ -115,7 +115,7 @@ class CustomerControllerTest {
 
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMvc.perform(delete(CustomerController.CUSTOMER_PATH + "/" + customer.getId()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete(CustomerController.CUSTOMER_PATH_ID, customer.getId()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
         verify(customerService).deleteCustomerById(uuidArgumentCaptor.capture());
@@ -130,7 +130,7 @@ class CustomerControllerTest {
         Map<String, Object> customerMap = new HashMap<>();
         customerMap.put("name", "Roger Updated");
 
-        mockMvc.perform(patch(CustomerController.CUSTOMER_PATH + "/" + customer.getId())
+        mockMvc.perform(patch(CustomerController.CUSTOMER_PATH_ID, customer.getId())
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(customerMap)))
