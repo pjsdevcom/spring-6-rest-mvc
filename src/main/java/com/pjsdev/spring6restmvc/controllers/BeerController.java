@@ -30,14 +30,6 @@ public class BeerController {
         return beerService.getBeerById(id);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Beer> handleNotFoundException() {
-
-        System.out.println("---> in exception handler");
-
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping(BEER_PATH)
     public List<Beer> listBeers() {
         return beerService.listBeers();
