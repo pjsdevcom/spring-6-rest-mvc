@@ -1,6 +1,6 @@
 package com.pjsdev.spring6restmvc.controllers;
 
-import com.pjsdev.spring6restmvc.model.Customer;
+import com.pjsdev.spring6restmvc.model.CustomerDTO;
 import com.pjsdev.spring6restmvc.services.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,19 +21,19 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable UUID id) {
+    public CustomerDTO getCustomerById(@PathVariable UUID id) {
         return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers() {
+    public List<CustomerDTO> listCustomers() {
         return customerService.listCustomers();
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity<Customer> handlePost(@RequestBody Customer customer) {
+    public ResponseEntity<CustomerDTO> handlePost(@RequestBody CustomerDTO customer) {
 
-        Customer savedCustomer = customerService.saveNewCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customers/" + savedCustomer.getId());
@@ -42,7 +42,7 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<Customer> updateById(@PathVariable UUID id, @RequestBody Customer customer) {
+    public ResponseEntity<CustomerDTO> updateById(@PathVariable UUID id, @RequestBody CustomerDTO customer) {
 
         customerService.updateCustomerById(id, customer);
 
@@ -50,7 +50,7 @@ public class CustomerController {
     }
 
     @DeleteMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<Customer> deleteById(@PathVariable UUID id) {
+    public ResponseEntity<CustomerDTO> deleteById(@PathVariable UUID id) {
 
         customerService.deleteCustomerById(id);
 
@@ -58,7 +58,7 @@ public class CustomerController {
     }
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<Customer> patchById(@PathVariable UUID id, @RequestBody Customer customer) {
+    public ResponseEntity<CustomerDTO> patchById(@PathVariable UUID id, @RequestBody CustomerDTO customer) {
 
         customerService.patchCustomerById(id, customer);
 

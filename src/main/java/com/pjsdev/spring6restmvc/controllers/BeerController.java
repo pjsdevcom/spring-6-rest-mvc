@@ -1,6 +1,6 @@
 package com.pjsdev.spring6restmvc.controllers;
 
-import com.pjsdev.spring6restmvc.model.Beer;
+import com.pjsdev.spring6restmvc.model.BeerDTO;
 import com.pjsdev.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class BeerController {
     private final BeerService beerService;
 
     @GetMapping(BEER_PATH_ID)
-    public Beer getBeerById(@PathVariable UUID id) {
+    public BeerDTO getBeerById(@PathVariable UUID id) {
 
         log.debug("---> called getBeerById in controller");
 
@@ -31,14 +31,14 @@ public class BeerController {
     }
 
     @GetMapping(BEER_PATH)
-    public List<Beer> listBeers() {
+    public List<BeerDTO> listBeers() {
         return beerService.listBeers();
     }
 
     @PostMapping(BEER_PATH)
-    public ResponseEntity<Beer> handlePost(@RequestBody Beer beer) {
+    public ResponseEntity<BeerDTO> handlePost(@RequestBody BeerDTO beer) {
 
-        Beer savedBeer = beerService.saveNewBeer(beer);
+        BeerDTO savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/beers/" + savedBeer.getId());
@@ -47,7 +47,7 @@ public class BeerController {
     }
 
     @PutMapping(BEER_PATH_ID)
-    public ResponseEntity<Beer> updateById(@PathVariable UUID id, @RequestBody Beer beer) {
+    public ResponseEntity<BeerDTO> updateById(@PathVariable UUID id, @RequestBody BeerDTO beer) {
 
         beerService.updateBeerById(id, beer);
 
@@ -55,7 +55,7 @@ public class BeerController {
     }
 
     @DeleteMapping(BEER_PATH_ID)
-    public ResponseEntity<Beer> deleteById(@PathVariable UUID id) {
+    public ResponseEntity<BeerDTO> deleteById(@PathVariable UUID id) {
 
         beerService.deleteBeerById(id);
 
@@ -63,7 +63,7 @@ public class BeerController {
     }
 
     @PatchMapping(BEER_PATH_ID)
-    public ResponseEntity<Beer> patchById(@PathVariable UUID id, @RequestBody Beer beer) {
+    public ResponseEntity<BeerDTO> patchById(@PathVariable UUID id, @RequestBody BeerDTO beer) {
 
         beerService.patchBeerById(id, beer);
 
