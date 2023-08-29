@@ -1,6 +1,7 @@
 package com.pjsdev.spring6restmvc.controllers;
 
 import com.pjsdev.spring6restmvc.entities.Beer;
+import com.pjsdev.spring6restmvc.mappers.BeerMapper;
 import com.pjsdev.spring6restmvc.model.BeerDTO;
 import com.pjsdev.spring6restmvc.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ class BeerControllerIT {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Autowired
+    BeerMapper beerMapper;
 
     @Test
     void testGetBeerById() {
@@ -73,5 +77,22 @@ class BeerControllerIT {
 
         Beer beer = beerRepository.findById(savedUUID).orElse(null);
         assertThat(beer).isNotNull();
+    }
+
+    @Test
+    void testUpdateBeer() {
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerMapper.beerToBeerDto(beer);
+        beerDTO.setId(null);
+        beerDTO.setVersion(null);
+        final String beerName = "The Updated Beer";
+        beerDTO.setBeerName(beerName);
+
+        ResponseEntity<BeerDTO> responseEntity = beerController.updateById(beer.getId(), beerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Beer updatedBeer = beerRepository.findById(beer.getId()).get();
+        assertThat(updatedBeer.getBeerName()).isEqualTo(beerName);
     }
 }
