@@ -92,7 +92,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void updateBeerById(UUID id, BeerDTO beer) {
+    public Optional<BeerDTO> updateBeerById(UUID id, BeerDTO beer) {
 
         BeerDTO existingBeer = beerMap.get(id);
         existingBeer.setBeerName(beer.getBeerName());
@@ -101,6 +101,8 @@ public class BeerServiceImpl implements BeerService {
         existingBeer.setPrice(beer.getPrice());
         existingBeer.setQuantityOnHand(beer.getQuantityOnHand());
         existingBeer.setDateUpdated(LocalDateTime.now());
+
+        return Optional.of(existingBeer);
     }
 
     @Override
