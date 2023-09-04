@@ -115,4 +115,9 @@ class BeerControllerIT {
 
         assertThat(foundBeer).isNull();
     }
+
+    @Test
+    void testDeleteNotFound() {
+        assertThrows(NotFoundException.class, () -> beerController.deleteById(UUID.randomUUID()));
+    }
 }
