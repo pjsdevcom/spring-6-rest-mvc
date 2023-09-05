@@ -120,4 +120,22 @@ class BeerControllerIT {
     void testDeleteNotFound() {
         assertThrows(NotFoundException.class, () -> beerController.deleteById(UUID.randomUUID()));
     }
+
+    @Test
+    void testPatchBeer() {
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = BeerDTO.builder().beerName("The Patched Beer").build();
+
+        ResponseEntity<BeerDTO> responseEntity = beerController.patchById(beer.getId(), beerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Beer patchedBeer = beerRepository.findById(beer.getId()).get();
+        assertThat(patchedBeer.getBeerName()).isEqualTo(beerDTO.getBeerName());
+    }
+
+    @Test
+    void testPatchNotFound() {
+        assertThrows(NotFoundException.class, () -> beerController.patchById(UUID.randomUUID(), BeerDTO.builder().build()));
+    }
 }
