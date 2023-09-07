@@ -118,4 +118,18 @@ class CustomerControllerIT {
     void testDeleteCustomerNotFound() {
         assertThrows(NotFoundException.class, () -> customerController.deleteById(UUID.randomUUID()));
     }
+
+    @Test
+    void testPatchCustomer() {
+
+        Customer existingCustomer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = CustomerDTO.builder().name("Bob the Patched Tester").build();
+
+        ResponseEntity<CustomerDTO> responseEntity = customerController.patchById(existingCustomer.getId(), customerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer patchedCustomer = customerRepository.findById(existingCustomer.getId()).get();
+        assertThat(patchedCustomer.getName()).isEqualTo(customerDTO.getName());
+    }
 }
