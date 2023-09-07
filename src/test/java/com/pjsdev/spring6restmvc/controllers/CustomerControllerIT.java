@@ -99,6 +99,8 @@ class CustomerControllerIT {
         assertThrows(NotFoundException.class, () -> customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build()));
     }
 
+    @Rollback
+    @Transactional
     @Test
     void testDeleteCustomer() {
         Customer customer = customerRepository.findAll().get(0);
@@ -110,5 +112,10 @@ class CustomerControllerIT {
 
         Customer foundCustomer = customerRepository.findById(customer.getId()).orElse(null);
         assertThat(foundCustomer).isNull();
+    }
+
+    @Test
+    void testDeleteCustomerNotFound() {
+        assertThrows(NotFoundException.class, () -> customerController.deleteById(UUID.randomUUID()));
     }
 }
