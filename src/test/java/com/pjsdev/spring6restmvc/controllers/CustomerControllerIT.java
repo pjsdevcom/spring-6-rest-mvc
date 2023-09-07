@@ -98,4 +98,17 @@ class CustomerControllerIT {
     void testUpdateNotFound() {
         assertThrows(NotFoundException.class, () -> customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build()));
     }
+
+    @Test
+    void testDeleteCustomer() {
+        Customer customer = customerRepository.findAll().get(0);
+
+        ResponseEntity<CustomerDTO> responseEntity = customerController.deleteById(customer.getId());
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+        assertThat(customerRepository.count()).isEqualTo(2);
+
+        Customer foundCustomer = customerRepository.findById(customer.getId()).orElse(null);
+        assertThat(foundCustomer).isNull();
+    }
 }
