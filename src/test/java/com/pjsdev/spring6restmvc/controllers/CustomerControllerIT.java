@@ -132,4 +132,9 @@ class CustomerControllerIT {
         Customer patchedCustomer = customerRepository.findById(existingCustomer.getId()).get();
         assertThat(patchedCustomer.getName()).isEqualTo(customerDTO.getName());
     }
+
+    @Test
+    void testPatchCustomerNotFound() {
+        assertThrows(NotFoundException.class, () -> customerController.patchById(UUID.randomUUID(), CustomerDTO.builder().build()));
+    }
 }
